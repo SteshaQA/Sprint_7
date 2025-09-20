@@ -2,6 +2,7 @@ import io.restassured.response.Response;
 import model.CourierLoginModel;
 import model.CourierModel;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import steps.DeleteSteps;
 
@@ -18,18 +19,22 @@ public class CourierLoginTest extends BaseAPITest {
     private CourierModel createCourierData;
     private CourierLoginModel loginData;
 
+    @Before
+    public void courierCreateBefore(){
+        createCourierData = new CourierModel(LOGIN, PASSWORD, FIRSTNAME);
+        createCourier(createCourierData);
+    }
+
+
     @Test
     //курьер может авторизоваться
     public void loginCourierTestSuccess() {
-
-        createCourierData = new CourierModel(LOGIN, PASSWORD, FIRSTNAME);
 
         String login = createCourierData.getLogin();
         String password = createCourierData.getPassword();
 
         loginData = new CourierLoginModel(login, password);
 
-        createCourier(createCourierData);
         loginCourier(loginData)
                 .then()
                 .statusCode(HTTP_OK)
@@ -40,13 +45,10 @@ public class CourierLoginTest extends BaseAPITest {
     //нельзя авторизоваться без логина
     public void loginCourierWithoutLoginTest() {
 
-        createCourierData = new CourierModel(LOGIN, PASSWORD, FIRSTNAME);
-
         String password = createCourierData.getPassword();
 
         loginData = new CourierLoginModel(null, password);
 
-        createCourier(createCourierData);
         loginCourier(loginData)
                 .then()
                 .statusCode(HTTP_BAD_REQUEST)
@@ -57,13 +59,10 @@ public class CourierLoginTest extends BaseAPITest {
     //нельзя авторизоваться без пароля
     public void loginCourierWithoutPasswordTest() {
 
-        createCourierData = new CourierModel(LOGIN, PASSWORD, FIRSTNAME);
-
         String login = createCourierData.getLogin();
 
         loginData = new CourierLoginModel(login, null);
 
-        createCourier(createCourierData);
         try{
             Response response = loginCourier(loginData);
             if (response.statusCode() == HTTP_BAD_REQUEST){
@@ -82,12 +81,7 @@ public class CourierLoginTest extends BaseAPITest {
     //нельзя авторизоваться c несуществующей парой логин/пароль
     public void loginCourierNotExistLoginPasswordTest() {
 
-        createCourierData = new CourierModel(LOGIN, PASSWORD, FIRSTNAME);
-
-        String login = createCourierData.getLogin();
-        String password = createCourierData.getPassword();
-
-        loginData = new CourierLoginModel(login, password);
+        loginData = new CourierLoginModel("00000000", "000000000");
 
         loginCourier(loginData)
                 .then()
@@ -99,14 +93,11 @@ public class CourierLoginTest extends BaseAPITest {
     //нельзя авторизоваться c логином, содержащим ошибку
     public void loginCourierWithIncorrectLoginTest() {
 
-        createCourierData = new CourierModel(LOGIN, PASSWORD, FIRSTNAME);
-
         String login = createCourierData.getLogin();
         String password = createCourierData.getPassword();
 
         loginData = new CourierLoginModel(login + "A", password);
 
-        createCourier(createCourierData);
         loginCourier(loginData)
                 .then()
                 .statusCode(HTTP_NOT_FOUND)
@@ -117,14 +108,11 @@ public class CourierLoginTest extends BaseAPITest {
     //нельзя авторизоваться c паролем, содержащим ошибку
     public void loginCourierWithIncorrectPasswordTest() {
 
-        createCourierData = new CourierModel(LOGIN, PASSWORD, FIRSTNAME);
-
         String login = createCourierData.getLogin();
         String password = createCourierData.getPassword();
 
         loginData = new CourierLoginModel(login, password + "A");
 
-        createCourier(createCourierData);
         loginCourier(loginData)
                 .then()
                 .statusCode(HTTP_NOT_FOUND)

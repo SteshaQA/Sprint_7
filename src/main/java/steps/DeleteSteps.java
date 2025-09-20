@@ -1,5 +1,6 @@
 package steps;
 
+import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import model.CourierLoginModel;
@@ -12,6 +13,7 @@ public class DeleteSteps {
 
     public static final String PATH_LOGIN = "/api/v1/courier/login";
 
+    @Step("Send POST request to /api/v1/courier/login - get courier id")
     public static int getIdCourier(CourierLoginModel courierLoginModel) {
         return given()
                 .contentType(ContentType.JSON)
@@ -23,6 +25,7 @@ public class DeleteSteps {
                 .extract().path("id");
     }
 
+    @Step("Send DELETE request to /api/v1/courier/ -  delete courier with courierId")
     public static Response deleteCourier(int courierId) {
         return given()
                 .when()
@@ -32,6 +35,7 @@ public class DeleteSteps {
                 .extract().response();
     }
 
+    @Step("Send DELETE request to /api/v1/courier/ -  delete courier without courierId")
     public static Response deleteCourierWithoutId() {
 //        return given()
 //                .when()

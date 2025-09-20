@@ -1,5 +1,6 @@
 package steps;
 
+import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import model.OrderModel;
@@ -11,6 +12,7 @@ public class CancelOrder {
 
     public static final String PATH_ORDER = "/api/v1/orders";
 
+    @Step("Send POST request to /api/v1/orders - get order track")
     public static int getTrackOrder(OrderModel orderModel) {
         return given()
                 .contentType(ContentType.JSON)
@@ -22,7 +24,7 @@ public class CancelOrder {
                 .extract().path("track");
     }
 
-
+    @Step("Send PUT request to /api/v1/orders/cancel - cancel order with track")
     public static Response cancelOrderWithTrack(int trackId){
         String requestBody = String.format("{\"track\": %d}", trackId);
         return given()

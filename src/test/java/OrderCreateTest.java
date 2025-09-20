@@ -19,7 +19,7 @@ public class OrderCreateTest extends BaseAPITest {
 
     @Test
     //тело ответа содержит track
-    public void OrderCreateTestSuccess(){
+    public void orderCreateTestSuccess(){
 
         order = new OrderModel(FIRSTNAME, LASTNAME, ADDRESS, METROSTATION, PHONE, RENTTIME, DELIVERYDATE, COMMENT, COLOR);
         trackId = createOrder(order)

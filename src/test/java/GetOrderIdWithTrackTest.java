@@ -23,7 +23,7 @@ public class GetOrderIdWithTrackTest extends BaseAPITest{
 
     @Test
     //успешный запрос возвращает объект с заказом
-    public void OrderCreateTestSuccess() {
+    public void orderCreateTestSuccess() {
 
         order = new OrderModel(FIRSTNAME, LASTNAME, ADDRESS, METROSTATION, PHONE, RENTTIME, DELIVERYDATE, COMMENT, COLOR);
         trackId = getTrackOrder(order);
@@ -35,7 +35,7 @@ public class GetOrderIdWithTrackTest extends BaseAPITest{
 
     @Test
     //запрос без номера заказа возвращает ошибку;
-    public void OrderCreateTestWithoutTrackId() {
+    public void orderCreateTestWithoutTrackId() {
 
         order = new OrderModel(FIRSTNAME, LASTNAME, ADDRESS, METROSTATION, PHONE, RENTTIME, DELIVERYDATE, COMMENT, COLOR);
         getOrderIdWithoutTrackId()
@@ -46,7 +46,7 @@ public class GetOrderIdWithTrackTest extends BaseAPITest{
 
     @Test
     //запрос без номера заказа возвращает ошибку;
-    public void OrderCreateTestWithIncorrectTrackId() {
+    public void orderCreateTestWithIncorrectTrackId() {
 
         order = new OrderModel(FIRSTNAME, LASTNAME, ADDRESS, METROSTATION, PHONE, RENTTIME, DELIVERYDATE, COMMENT, COLOR);
         trackId = getTrackOrder(order);

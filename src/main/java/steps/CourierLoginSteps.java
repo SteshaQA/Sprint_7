@@ -1,5 +1,6 @@
 package steps;
 
+import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import model.CourierLoginModel;
@@ -10,6 +11,7 @@ public class CourierLoginSteps {
 
     public static final String PATH_LOGIN = "/api/v1/courier/login";
 
+    @Step("Send POST request to api/v1/courier/login - login courier")
     public static Response loginCourier(CourierLoginModel courierLoginModel) {
         return given()
                 .log().all()

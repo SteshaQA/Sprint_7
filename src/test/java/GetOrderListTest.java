@@ -16,7 +16,7 @@ import static steps.OrderSteps.createOrder;
 public class GetOrderListTest extends BaseAPITest{
     @Test
     //
-    public void GetOrderListTestSuccess(){
+    public void getOrderListTestSuccess(){
 
         OrderModel order = new OrderModel(FIRSTNAME, LASTNAME, ADDRESS, METROSTATION, PHONE, RENTTIME, DELIVERYDATE, COMMENT, COLOR);
 

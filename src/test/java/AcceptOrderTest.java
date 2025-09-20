@@ -2,6 +2,7 @@ import model.CourierLoginModel;
 import model.CourierModel;
 import model.OrderModel;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import steps.DeleteSteps;
 
@@ -30,10 +31,15 @@ public class AcceptOrderTest extends BaseAPITest {
     private int trackId;
     private int orderId;
 
+    @Before
+    public void courierCreateBefore(){
+        createCourierData = new CourierModel(LOGIN, PASSWORD, FIRSTNAME);
+        createCourier(createCourierData);
+    }
+
     @Test
     //успешный запрос возвращает ok: true;
-    public void AcceptOrderTestSuccess() {
-        createCourierData = new CourierModel(LOGIN, PASSWORD, FIRSTNAME);
+    public void acceptOrderTestSuccess() {
 
         String login = createCourierData.getLogin();
         String password = createCourierData.getPassword();
@@ -41,7 +47,6 @@ public class AcceptOrderTest extends BaseAPITest {
         loginData = new CourierLoginModel(login, password);
 
         order = new OrderModel(FIRSTNAME, LASTNAME, ADDRESS, METROSTATION, PHONE, RENTTIME, DELIVERYDATE, COMMENT, COLOR);
-        createCourier(createCourierData);
         trackId = getTrackOrder(order);
         courierId = getIdCourier(loginData);
         orderId = getOrderIdWithTrack(trackId);
@@ -53,8 +58,7 @@ public class AcceptOrderTest extends BaseAPITest {
 
     @Test
     //если не передать id заказа, запрос вернёт ошибку;
-    public void AcceptOrderTestWithoutId() {
-        createCourierData = new CourierModel(LOGIN, PASSWORD, FIRSTNAME);
+    public void acceptOrderTestWithoutId() {
 
         String login = createCourierData.getLogin();
         String password = createCourierData.getPassword();
@@ -62,7 +66,6 @@ public class AcceptOrderTest extends BaseAPITest {
         loginData = new CourierLoginModel(login, password);
 
         order = new OrderModel(FIRSTNAME, LASTNAME, ADDRESS, METROSTATION, PHONE, RENTTIME, DELIVERYDATE, COMMENT, COLOR);
-        createCourier(createCourierData);
         trackId = getTrackOrder(order);
         courierId = getIdCourier(loginData);
         orderId = getOrderIdWithTrack(trackId);
@@ -74,8 +77,7 @@ public class AcceptOrderTest extends BaseAPITest {
 
     @Test
     //если не передать id курьера, запрос вернёт ошибку;
-    public void AcceptOrderTestWithoutCourierId() {
-        createCourierData = new CourierModel(LOGIN, PASSWORD, FIRSTNAME);
+    public void acceptOrderTestWithoutCourierId() {
 
         String login = createCourierData.getLogin();
         String password = createCourierData.getPassword();
@@ -83,7 +85,6 @@ public class AcceptOrderTest extends BaseAPITest {
         loginData = new CourierLoginModel(login, password);
 
         order = new OrderModel(FIRSTNAME, LASTNAME, ADDRESS, METROSTATION, PHONE, RENTTIME, DELIVERYDATE, COMMENT, COLOR);
-        createCourier(createCourierData);
         trackId = getTrackOrder(order);
         courierId = getIdCourier(loginData);
         orderId = getOrderIdWithTrack(trackId);
@@ -95,8 +96,7 @@ public class AcceptOrderTest extends BaseAPITest {
 
     @Test
     //если передать неверный номер заказа, запрос вернёт ошибку
-    public void AcceptOrderTestWithIncorrectOrderId() {
-        createCourierData = new CourierModel(LOGIN, PASSWORD, FIRSTNAME);
+    public void acceptOrderTestWithIncorrectOrderId() {
 
         String login = createCourierData.getLogin();
         String password = createCourierData.getPassword();
@@ -104,7 +104,6 @@ public class AcceptOrderTest extends BaseAPITest {
         loginData = new CourierLoginModel(login, password);
 
         order = new OrderModel(FIRSTNAME, LASTNAME, ADDRESS, METROSTATION, PHONE, RENTTIME, DELIVERYDATE, COMMENT, COLOR);
-        createCourier(createCourierData);
         trackId = getTrackOrder(order);
         courierId = getIdCourier(loginData);
         orderId = getOrderIdWithTrack(trackId);
@@ -115,8 +114,7 @@ public class AcceptOrderTest extends BaseAPITest {
     }
     @Test
     //если передать неверный id курьера, запрос вернёт ошибку
-    public void AcceptOrderTestWithIncorrectCourierId() {
-        createCourierData = new CourierModel(LOGIN, PASSWORD, FIRSTNAME);
+    public void acceptOrderTestWithIncorrectCourierId() {
 
         String login = createCourierData.getLogin();
         String password = createCourierData.getPassword();
@@ -124,10 +122,10 @@ public class AcceptOrderTest extends BaseAPITest {
         loginData = new CourierLoginModel(login, password);
 
         order = new OrderModel(FIRSTNAME, LASTNAME, ADDRESS, METROSTATION, PHONE, RENTTIME, DELIVERYDATE, COMMENT, COLOR);
-        createCourier(createCourierData);
         trackId = getTrackOrder(order);
         courierId = getIdCourier(loginData);
         orderId = getOrderIdWithTrack(trackId);
+
         acceptOrderWithTrack(orderId, courierId + 1111111)
                 .then()
                 .statusCode(HTTP_NOT_FOUND)

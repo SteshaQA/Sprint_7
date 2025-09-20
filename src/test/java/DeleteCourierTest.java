@@ -1,6 +1,7 @@
 import model.CourierLoginModel;
 import model.CourierModel;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import steps.DeleteSteps;
 
@@ -17,15 +18,19 @@ public class DeleteCourierTest extends BaseAPITest {
     private CourierModel courier;
     private CourierLoginModel loginData;
 
+    @Before
+    public void courierCreateBefore(){
+        courier = new CourierModel(LOGIN, PASSWORD, FIRSTNAME);
+        createCourier(courier);
+    }
+
     @Test
     //успешный запрос возвращает ok: true
     public void deleteCourierTestSuccess() {
-        courier = new CourierModel(LOGIN, PASSWORD, FIRSTNAME);
         String login = courier.getLogin();
         String password = courier.getPassword();
 
         loginData = new CourierLoginModel(login, password);
-        createCourier(courier);
         loginCourier(loginData);
         int courierID = DeleteSteps.getIdCourier(loginData);
         deleteCourier(courierID)
@@ -47,12 +52,10 @@ public class DeleteCourierTest extends BaseAPITest {
     @Test
     //если отправить запрос с несуществующим id, вернётся ошибка
     public void deleteCourierTestNotExistId() {
-        courier = new CourierModel(LOGIN, PASSWORD, FIRSTNAME);
         String login = courier.getLogin();
         String password = courier.getPassword();
 
         loginData = new CourierLoginModel(login, password);
-        createCourier(courier);
         loginCourier(loginData);
         deleteCourier(333)
                 .then()

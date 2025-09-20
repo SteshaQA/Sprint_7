@@ -34,7 +34,7 @@ public class ParametrizedOrderCreateTest extends BaseAPITest {
 
         //заказ по верхней кнопке
         @Test
-        public void OrderCreateWithColorTest() {
+        public void orderCreateWithColorTest() {
             OrderModel order = new OrderModel(FIRSTNAME, LASTNAME, ADDRESS, METROSTATION, PHONE, RENTTIME, DELIVERYDATE, COMMENT, color);
             createOrder(order)
                     .then()
